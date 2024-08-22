@@ -1,8 +1,8 @@
-class Line {
-    color: string = "black";
-    state: any = {};
+import Tool from "./Tool";
 
-    constructor() {
+class Line extends Tool {
+    constructor(color = "black") {
+        super(color);
         this.state.clicks = [];
     }
 
@@ -24,7 +24,7 @@ class Line {
 
         if (!this.state.shadow) {
             const pos1 = this.state.clicks[0];
-            this.state.shadow = this.createLine({x: pos1.x, y: pos1.y}, {x: position.x, y: position.y}, this.color, "0.3");
+            this.state.shadow = this.createLine(pos1, position, "0.3");
             svg.appendChild(this.state.shadow);
         } else {
             this.state.shadow.setAttribute("x2", position.x);
@@ -38,14 +38,14 @@ class Line {
         this.state.shadow = null;
     }
 
-    createLine(pos1: any, pos2: any, color: string, opacity="1") {
-        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    createLine(pos1: any, pos2: any, opacity="1") {
+        const line = this.createSVGElement("line");
   
         line.setAttribute("x1", pos1.x);
         line.setAttribute("y1", pos1.y);
         line.setAttribute("x2", pos2.x);
         line.setAttribute("y2", pos2.y);
-        line.setAttribute("stroke", color);
+        line.setAttribute("stroke", this.color);
         line.setAttribute("opacity", opacity);
 
         return line;
