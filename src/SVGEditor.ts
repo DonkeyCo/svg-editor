@@ -1,6 +1,12 @@
 import { CSSResultGroup, LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import Line from "./Line";
+import Line from "./tools/Line";
+import Circle from "./tools/Circle";
+
+export type Position = {
+    x: string,
+    y: string
+}
 
 @customElement("dz-svg-editor")
 class SVGEditor extends LitElement {
@@ -46,8 +52,11 @@ class SVGEditor extends LitElement {
     }
 
     onLineTool() {
-        console.log("Clicked on Line tool");
         this.session.tool = new Line();
+    }
+
+    onCircleTool() {
+        this.session.tool = new Circle();
     }
 
     onClickDrawingArea (event: MouseEvent) {
@@ -66,10 +75,10 @@ class SVGEditor extends LitElement {
     
     render() {
         return html`
-            <div id="wrapper" style="width: ${this.width}; height: ${this.height};">
+            <div id="wrapper">
                 <div id="toolbar">
-                    <span style="font-weight: bold;">Toolbar</span>
                     <button id="line" @click="${this.onLineTool}">Line</button>
+                    <button id="circle" @click="${this.onCircleTool}">Circle</button>
                     <button id="clear" @click="${this.onClear}">Clear</button>
                     <button id="copy" @click="${this.onCopy}">Copy SVG</button>
                 </div>
